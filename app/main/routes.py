@@ -123,7 +123,7 @@ def unfollow(username):
 @login_required
 def search():
     if not g.search_form.validate():
-        return redirect(url_for('main.explore'))
+        return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
     tasks, total = Task.search(g.search_form.q.data, page, current_app.config['TASKS_PER_PAGE'])
     next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
