@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h2 class="text-center">Hello {{ current_user.username }}, and welcome to T&E Manager!</h2>
+    <h4 class="text-center">A web application developed and published by</h4>
+    <h2 class="text-center"><a href="https://www.dacostafaro.com">
+    <img class="center-block img-responsive" src="static/image/DaCostaFaro_logo.svg" alt="DaCostaFaro.com"></a><br>
+        with the great support of <br><br><a href="https://www.asmartcode.com">A Smart Code</a></h2>
+{% endblock %}

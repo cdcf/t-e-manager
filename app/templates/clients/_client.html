@@ -1,0 +1,22 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-9">
+                    <p>{{ client.name }}</p>
+                    {% autoescape false %}
+                    <a href="http://maps.google.com/?q={{ client.address | replace("\n", " ") }}">{{ client.address | replace("\n", "<br/>") }}</a>
+                    {%  endautoescape %}
+                </div>
+                <div class="col-md-3">
+                    <div class="btn pull-right">
+                        <a class="btn btn-primary" href="{{ url_for('clients.edit_client', id=client.id) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        {% if current_user.is_administrator %}
+                            <form method="post" action="{{ url_for('clients.delete_client', id=client.id) }}"><button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span></button></form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

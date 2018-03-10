@@ -1,0 +1,29 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+            Created by <a href="{{ url_for('main.user', username=task.owner.username) }}">{{ task.owner.username }}</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <u>Task:</u> {{ task.name }}<br>
+                    <u>Jira ref:</u> {{ task.jira }}<br>
+                    <u>Duration:</u> {{ task.duration }} hours<br>
+                    {% autoescape false %}
+                    <u>Comments:</u> {{ task.comment | replace("\n", "<br/>") }}<br>
+                    {% endautoescape %}
+                </div>
+                <div class="col-md-4">
+                    <u>Date:</u> {{ moment(task.date).format('LL') }}<br>
+                    <u>Client:</u> <a href="{{ url_for('clients.edit_client', id=task.beneficiary.id) }}">{{ task.beneficiary.name }}</a><br>
+                    <u>Project:</u> <a href="{{ url_for('projects.edit_project', id=task.parent.id) }}">{{ task.parent.name }}</a><br>
+                    <u>Daily rate:</u> <span style="color: brown;">{{ task.rate }}</span> CHF<br>
+                </div>
+                {% if current_user.is_administrator %}
+                <div class="btn pull-right">
+                    <a class="btn btn-primary" href="{{ url_for('tasks.edit_task', id=task.id) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <form method="post" action="{{ url_for('tasks.delete_task', id=task.id) }}"><button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span></button></form>
+                </div>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+</table>

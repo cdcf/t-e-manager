@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block app_content %}
+    <h1>Edit a Client Account</h1>
+    <div class="row">
+        <div class="col-md-6">
+            {% if current_user.can(Permission.WRITE) %}
+            {{ wtf.quick_form(form) }}
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <div class="pagination">
+                {% for client in clients %}
+                    {% include 'clients/_client.html' %}
+                {% endfor %}
+            {{ macros.pagination_widget(pagination, 'clients.add_client') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

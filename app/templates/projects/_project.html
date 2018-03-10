@@ -1,0 +1,22 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-9">
+                    <p> {{ project.name }}</p>
+                    {% autoescape false %}
+                    {{ project.description | replace("\n", "<br/>") }}
+                    {%  endautoescape %}
+                </div>
+                <div class="col-md-3">
+                    <div class="btn pull-right">
+                        <a class="btn btn-primary" href="{{ url_for('projects.edit_project', id=project.id) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        {% if current_user.is_administrator %}
+                        <form method="post" action="{{ url_for('projects.delete_project', id=project.id) }}"><button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span></button></form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

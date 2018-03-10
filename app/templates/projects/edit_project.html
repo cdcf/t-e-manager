@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block app_content %}
+    <h1>Edit a Project</h1>
+    <div class="row">
+        <div class="col-md-6">
+            {% if current_user.can(Permission.WRITE) %}
+                {{ wtf.quick_form(form) }}
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <div class="pagination">
+                {% for project in projects %}
+                    {% include 'projects/_project.html' %}
+                {% endfor %}
+            {{ macros.pagination_widget(pagination, 'projects.add_project') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

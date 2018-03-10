@@ -1,0 +1,92 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}T&E Manager{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {% if current_user.is_authenticated %}
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">T&E Manager</a>
+                {% else %}
+                <a class="navbar-brand" href="{{ url_for('auth.login') }}">T&E Manager</a>
+                {% endif %}
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('tasks.add_task') }}">Task</a></li>
+                    <li><a href="{{ url_for('clients.add_client') }}">Client</a></li>
+                    <li><a href="{{ url_for('projects.add_project') }}">Project</a></li>
+                    <li><a href="#">Expense</a></li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Set Up<b class="caret"></b></a>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Reporting<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('tasks.my_tasks') }}">My Tasks</a></li>
+                            <li><a href="{{ url_for('tasks.my_followed_tasks') }}">My Followed Tasks</a></li>
+                            <li><a href="{{ url_for('tasks.list_of_tasks') }}">List of Tasks</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('clients.list_of_clients') }}">List of Clients</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('projects.list_of_projects') }}">List of Projects</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% if g.search_form %}
+                    <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
+                        <div class="form-group">
+                            {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
+                        </div>
+                    </form>
+                {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                    {% else %}
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ current_user.avatar(size=18) }}"> {{ current_user.username }} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('main.user', username=current_user.username) }}">View Profile</a></li>
+                            <li><a href="{{ url_for('main.list_of_users') }}">List of Users</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <!-- <strong>Title</strong> --> {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    <script src="{{ url_for('static', filename='bootstrap-datetimepicker.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap-datetimepicker.min.css') }}" />
+{% endblock %}

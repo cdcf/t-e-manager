@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block app_content %}
+    <div class="pagination">
+        {% for task in tasks %}
+            {% include 'tasks/_task.html' %}
+        {% endfor %}
+        {{ macros.pagination_widget(pagination, 'tasks.add_task') }}
+    </div>
+{% endblock %}
