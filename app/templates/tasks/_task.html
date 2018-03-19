@@ -1,7 +1,7 @@
 <table class="table table-hover">
     <tr>
         <td>
-            Created by <a href="{{ url_for('main.user', username=task.owner.username) }}">{{ task.owner.username }}</a>
+            Created by <a href="{{ url_for('main.user', username=task.user_task.username) }}">{{ task.user_task.username }}</a>
             <div class="row">
                 <div class="col-md-6">
                     <u>Task:</u> {{ task.name }}<br>
@@ -13,8 +13,8 @@
                 </div>
                 <div class="col-md-4">
                     <u>Date:</u> {{ moment(task.date).format('LL') }}<br>
-                    <u>Client:</u> <a href="{{ url_for('clients.edit_client', id=task.beneficiary.id) }}">{{ task.beneficiary.name }}</a><br>
-                    <u>Project:</u> <a href="{{ url_for('projects.edit_project', id=task.parent.id) }}">{{ task.parent.name }}</a><br>
+                    <u>Client:</u> <a href="{{ url_for('clients.edit_client', id=task.client_task.id) }}">{{ task.client_task.name }}</a><br>
+                    <u>Project:</u> <a href="{{ url_for('projects.edit_project', id=task.project_task.id) }}">{{ task.project_task.name }}</a><br>
                     <u>Daily rate:</u> <span style="color: brown;">{{ task.rate }}</span> CHF<br>
                 </div>
                 {% if current_user.is_administrator %}

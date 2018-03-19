@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_required
 from app import db
 from app.projects import bp
-from app.projects.forms import ProjectForm, EditProjectForm
+from app.projects.forms import ProjectForm, EditProjectForm, ListProjectForm
 from app.models import Project, Permission
 from app.decorators import admin_required
 
@@ -13,9 +13,10 @@ from app.decorators import admin_required
 @login_required
 def add_project():
     form = ProjectForm()
-    if form.validate_on_submit():
+    if current_user.can(Permission.WRITE) and form.validate_on_submit():
         project = Project(name=form.name.data,
                           description=form.description.data,
+                          client_id=form.client_id.data.id,
                           user_id=current_user.id)
         db.session.add(project)
         db.session.commit()
@@ -33,9 +34,10 @@ def add_project():
 def edit_project(id):
     project = Project.query.filter_by(id=id).first()
     form = EditProjectForm()
-    if form.validate_on_submit():
+    if current_user.can(Permission.WRITE) and form.validate_on_submit():
         project.name = form.name.data
         project.description = form.description.data
+        project.client_id = form.client_id.data.id
         db.session.add(project)
         db.session.commit()
         flash('Your changes have been saved.', 'success')
@@ -43,6 +45,7 @@ def edit_project(id):
     elif request.method == 'GET':
         form.name.data = project.name
         form.description.data = project.description
+        form.client_id.data = project.client_project
     page = request.args.get('page', 1, type=int)
     pagination = Project.query.order_by(Project.name.desc()).paginate(page, 5, False)
     projects = pagination.items

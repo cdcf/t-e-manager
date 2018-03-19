@@ -4,6 +4,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <p> {{ project.name }}</p>
+                    <a href="{{ url_for('clients.edit_client', id=project.client_project.id) }}">{{ project.client_project.name }}</a><br>
                     {% autoescape false %}
                     {{ project.description | replace("\n", "<br/>") }}
                     {%  endautoescape %}

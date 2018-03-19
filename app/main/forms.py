@@ -1,6 +1,5 @@
 __author__ = 'Cedric Da Costa Faro'
 
-from flask import request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, Length
@@ -66,14 +65,3 @@ class EditProfileAdminForm(FlaskForm):
             user = User.query.filter_by(email=self.email.data).first()
             if user is not None:
                 raise ValidationError('Email address already in use, please use a different one.')
-
-
-class SearchForm(FlaskForm):
-    q = StringField('Search', validators=[DataRequired()])
-
-    def __init__(self, *args, **kwargs):
-        if 'formdata' not in kwargs:
-            kwargs['formdata'] = request.args
-        if 'csrf_enabled' not in kwargs:
-            kwargs['csrf_enabled'] = False
-        super(SearchForm, self).__init__(*args, **kwargs)

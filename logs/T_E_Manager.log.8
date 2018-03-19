@@ -1,0 +1,68 @@
+2018-03-15 18:23:04,873 ERROR: Exception on /add_task [GET] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/cdcf/t-e-manager/app/tasks/routes.py", line 37, in add_task
+    return render_template('tasks/add_task.html', title='Add a task', form=form, tasks=tasks, pagination=pagination)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/templating.py", line 134, in render_template
+    context, ctx.app)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/templating.py", line 116, in _render
+    rv = template.render(context)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/asyncsupport.py", line 76, in render
+    return original_render(self, *args, **kwargs)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/cdcf/t-e-manager/app/templates/tasks/add_task.html", line 3, in top-level template code
+    {% import "_macros.html" as macros %}
+  File "/Users/cdcf/t-e-manager/app/templates/base.html", line 1, in top-level template code
+    {% extends 'bootstrap/base.html' %}
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
+    {% block doc -%}
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
+    {%- block html %}
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
+    {% block body -%}
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
+    {% block content -%}
+  File "/Users/cdcf/t-e-manager/app/templates/base.html", line 76, in block "content"
+    {% block app_content %}{% endblock %}
+  File "/Users/cdcf/t-e-manager/app/templates/tasks/add_task.html", line 10, in block "app_content"
+    {{ wtf.quick_form(form) }}
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/runtime.py", line 579, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/wtf.html", line 205, in template
+    {{ form_field(field,
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/runtime.py", line 579, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/wtf.html", line 123, in template
+    {{field(class="form-control", **kwargs)|safe}}
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/wtforms/fields/core.py", line 153, in __call__
+    return self.meta.render_field(self, kwargs)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/wtforms/meta.py", line 56, in render_field
+    return field.widget(field, **render_kw)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/wtforms/widgets/core.py", line 287, in __call__
+    for val, label, selected in field.iter_choices():
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/wtforms/ext/sqlalchemy/fields.py", line 107, in iter_choices
+    for pk, obj in self._get_object_list():
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/wtforms/ext/sqlalchemy/fields.py", line 98, in _get_object_list
+    query = self.query or self.query_factory()
+  File "/Users/cdcf/t-e-manager/app/tasks/forms.py", line 16, in get_projects
+    return Project.query.filter_by(get_clients())
+TypeError: filter_by() takes 1 positional argument but 2 were given
+2018-03-15 18:25:15,827 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]

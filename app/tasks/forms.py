@@ -22,12 +22,14 @@ class TaskForm(FlaskForm):
         query_factory=get_clients,
         allow_blank=True,
         get_label='name',
-        blank_text=u'-- Please choose a client --')
+        blank_text=u'-- Please choose a client --',
+        id='select_client')
     project_id = QuerySelectField('Project', validators=[DataRequired()],
         query_factory=get_projects,
         allow_blank=True,
         get_label='name',
-        blank_text=u'-- Please choose a project --')
+        blank_text=u'-- Please choose a project --',
+        id='select_project')
     jira = StringField('Jira Ref', validators=[DataRequired()])
     duration = DecimalField('Duration', validators=[DataRequired()])
     date = DateField('Date', validators=[DataRequired()], format='%d/%m/%Y', default=datetime.date.today(),

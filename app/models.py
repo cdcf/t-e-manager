@@ -8,43 +8,6 @@ from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import db, login
-from app.search import add_to_index, remove_from_index, query_index
-
-
-class SearchableMixin(object):
-    @classmethod
-    def search(cls, expression, page, per_page):
-        ids, total = query_index(cls.__tablename__, expression, page, per_page)
-        if total == 0:
-            return cls.query.filter_by(id=0), 0
-        when = []
-        for i in range(len(ids)):
-            when.append((ids[i], i))
-        return cls.query.filter(cls.id.in_(ids)).order_by(
-            db.case(when, value=cls.id)), total
-
-    @classmethod
-    def before_commit(cls, session):
-        session._changes = {
-            'add': [obj for obj in session.new if isinstance(obj, cls)],
-            'update': [obj for obj in session.dirty if isinstance(obj, cls)],
-            'delete': [obj for obj in session.deleted if isinstance(obj, cls)]
-        }
-
-    @classmethod
-    def after_commit(cls, session):
-        for obj in session._changes['add']:
-            add_to_index(cls.__tablename__, obj)
-        for obj in session._changes['update']:
-            add_to_index(cls.__tablename__, obj)
-        for obj in session._changes['delete']:
-            remove_from_index(cls.__tablename__, obj)
-        session._changes = None
-
-    @classmethod
-    def reindex(cls):
-        for obj in cls.query:
-            add_to_index(cls.__tablename__, obj)
 
 
 followers = db.Table('followers',
@@ -113,7 +76,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    tasks = db.relationship('Task', backref='owner', lazy='dynamic')
+    tasks = db.relationship('Task', backref='user_task', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     followed = db.relationship(
@@ -121,8 +84,8 @@ class User(UserMixin, db.Model):
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
-    clients = db.relationship('Client', backref='owner_client', lazy='dynamic')
-    projects = db.relationship('Project', backref='owner_project', lazy='dynamic')
+    clients = db.relationship('Client', backref='user_client', lazy='dynamic')
+    projects = db.relationship('Project', backref='user_project', lazy='dynamic')
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     def __init__(self, **kwargs):
@@ -188,7 +151,7 @@ class User(UserMixin, db.Model):
 
 
 class AnonymousUser(AnonymousUserMixin):
-    def can(self, permissions):
+    def can(self):
         return False
 
     def is_administrator(self):
@@ -201,8 +164,7 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-class Task(SearchableMixin, db.Model):
-    __searchable__ = ['comment', 'name', 'jira']
+class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -222,8 +184,9 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     description = db.Column(db.String(128))
-    tasks = db.relationship('Task', backref='parent', lazy='dynamic')
+    tasks = db.relationship('Task', backref='project_task', lazy='dynamic')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
 
     def __repr__(self):
         return '<Project>'.format(self.name)
@@ -234,11 +197,8 @@ class Client(db.Model):
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     address = db.Column(db.String(128))
-    tasks = db.relationship('Task', backref='beneficiary', lazy='dynamic')
+    tasks = db.relationship('Task', backref='client_task', lazy='dynamic')
+    projects = db.relationship('Project', backref='client_project', lazy='dynamic')
 
     def __repr__(self):
         return '<Client>'.format(self.name)
-
-
-db.event.listen(db.session, 'before_commit', Task.before_commit)
-db.event.listen(db.session, 'after_commit', Task.after_commit)

@@ -10,7 +10,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'Jm2ltapdm&pct'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
@@ -18,5 +18,4 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['cedric.dacostafaro@gmail.com']
     TIME_TRACKER_ADMIN = os.environ.get('TIME_TRACKER_ADMIN')
-    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     TASKS_PER_PAGE = 10

@@ -3,7 +3,6 @@ __author__ = 'Cedric Da Costa Faro'
 import logging
 import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
-from elasticsearch import Elasticsearch
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
@@ -12,6 +11,7 @@ from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
+
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -32,7 +32,6 @@ def create_app(config_class=Config):
     mail.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
-    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) if app.config['ELASTICSEARCH_URL'] else None
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
