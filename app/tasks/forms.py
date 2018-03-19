@@ -1,7 +1,7 @@
 __author__ = 'Cedric Da Costa Faro'
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, DecimalField, DateField
+from wtforms import StringField, SubmitField, TextAreaField, DecimalField, DateField, HiddenField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Length
 from app.models import Client, Project
@@ -17,6 +17,7 @@ def get_projects():
 
 
 class TaskForm(FlaskForm):
+    form_name = HiddenField('Form Name')
     name = StringField('Task Description', validators=[DataRequired()])
     client_id = QuerySelectField('Client', validators=[DataRequired()],
         query_factory=get_clients,

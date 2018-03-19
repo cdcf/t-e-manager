@@ -35,7 +35,7 @@ def add_task():
         task = Task(name=form.name.data,
                     client_id=form.client_id.data.id,
                     project_id=form.project_id.data.id,
-                    owner=current_user,
+                    user_task=current_user,
                     jira=form.jira.data,
                     duration=form.duration.data,
                     date=form.date.data,
