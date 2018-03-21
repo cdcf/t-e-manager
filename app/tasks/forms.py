@@ -31,7 +31,7 @@ class TaskForm(FlaskForm):
         get_label='name',
         blank_text=u'-- Please choose a project --',
         id='select_project')
-    jira = StringField('Jira Ref', validators=[DataRequired()])
+    task_ref = StringField('Task Ref', validators=[DataRequired()])
     duration = DecimalField('Duration', validators=[DataRequired()])
     date = DateField('Date', validators=[DataRequired()], format='%d/%m/%Y', default=datetime.date.today(),
                      id='date_picker')
@@ -41,16 +41,21 @@ class TaskForm(FlaskForm):
 
 
 class EditTaskForm(FlaskForm):
+    form_name = HiddenField('Form Name')
     name = StringField('Task Description', validators=[DataRequired()])
     client_id = QuerySelectField('Client', validators=[DataRequired()],
                                  query_factory=get_clients,
                                  allow_blank=True,
-                                 get_label='name')
+                                 get_label='name',
+                                 blank_text=u'-- Please choose a project --',
+                                 id='select_client')
     project_id = QuerySelectField('Project', validators=[DataRequired()],
                                   query_factory=get_projects,
                                   allow_blank=True,
-                                  get_label='name')
-    jira = StringField('Jira Ref', validators=[DataRequired()])
+                                  get_label='name',
+                                  blank_text=u'-- Please choose a project --',
+                                  id='select_project')
+    task_ref = StringField('Task Ref', validators=[DataRequired()])
     duration = DecimalField('Duration', validators=[DataRequired()])
     date = DateField('Date', validators=[DataRequired()], format='%d/%m/%Y', id='date_picker')
     rate = DecimalField('Rate', validators=[DataRequired()])

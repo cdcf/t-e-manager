@@ -32,43 +32,43 @@
     </script>
     <script charset="utf-8" type="text/javascript">
 
-    $(function() {
+        $(function() {
 
-    // jQuery selection for the 2 select boxes
-    var dropdown = {
-        client_id: $('#select_client'),
-        project_id: $('#select_project')
-    };
-
-    // call to update on load
-    updateProjects_id();
-
-    // function to call XHR and update county dropdown
-    function updateProjects_id() {
-        var send = {
-            client_id: dropdown.client_id.val()
+        // jQuery selection for the 2 select boxes
+        var dropdown = {
+            client_id: $('#select_client'),
+            project_id: $('#select_project')
         };
-        dropdown.project_id.attr('disabled', 'disabled');
-        dropdown.project_id.empty();
-        $.getJSON("{{ url_for('tasks._get_projects') }}", send, function(data) {
-            data.forEach(function(item) {
-                dropdown.project_id.append(
-                    $('<option>', {
-                        value: item[0],
-                        text: item[1]
-                    })
-                );
-            });
-            dropdown.project_id.removeAttr('disabled');
-        });
-    }
 
-    // event listener to state dropdown change
-    dropdown.client_id.on('change', function() {
+        // call to update on load
         updateProjects_id();
+
+        // function to call XHR and update project drop down
+        function updateProjects_id() {
+            var send = {
+                client_id: dropdown.client_id.val()
+            };
+            dropdown.project_id.attr('disabled', 'disabled');
+            dropdown.project_id.empty();
+            $.getJSON("{{ url_for('tasks._get_projects') }}", send, function(data) {
+                data.forEach(function(item) {
+                    dropdown.project_id.append(
+                        $('<option>', {
+                            value: item[0],
+                            text: item[1]
+                        })
+                    );
+                });
+                dropdown.project_id.removeAttr('disabled');
+            });
+        }
+
+        // event listener to client drop down change
+        dropdown.client_id.on('change', function() {
+            updateProjects_id();
+        });
+
     });
 
-});
-
-</script>
+    </script>
 {% endblock %}

@@ -1,6 +1,5 @@
 __author__ = 'Cedric Da Costa Faro'
 
-from datetime import date
 from sqlalchemy import func
 from flask import render_template, flash, redirect, url_for, request, current_app, jsonify
 from flask_login import current_user, login_required
@@ -26,9 +25,7 @@ def add_task():
     form.project_id.choices = [(row.id, row.name) for row in Project.query.all()]
     if request.method == 'GET':
         page = request.args.get('page', 1, type=int)
-        pagination = current_user.my_tasks().filter(func.date(Task.date) == date.today()).order_by(Task.date.desc(),
-                                                                                                   Task.jira.asc()).paginate(
-            page, 4, False)
+        pagination = current_user.my_tasks().order_by(Task.date.desc(), Task.task_ref.asc()).paginate(page, 4, False)
         tasks = pagination.items
         return render_template('tasks/add_task.html', title='Add a task', form=form, tasks=tasks, pagination=pagination)
     if current_user.can(Permission.WRITE) and form.validate_on_submit() and request.form['form_name'] == 'PickTask':
@@ -36,7 +33,7 @@ def add_task():
                     client_id=form.client_id.data.id,
                     project_id=form.project_id.data.id,
                     user_task=current_user,
-                    jira=form.jira.data,
+                    task_ref=form.task_ref.data,
                     duration=form.duration.data,
                     date=form.date.data,
                     rate=form.rate.data,
@@ -46,9 +43,7 @@ def add_task():
         flash('Your task has been added!', 'success')
         return redirect(url_for('tasks.add_task'))
     page = request.args.get('page', 1, type=int)
-    pagination = current_user.my_tasks().filter(func.date(Task.date) == date.today()).order_by(Task.date.desc(),
-                                                                                          Task.jira.asc()).paginate(
-        page, 4, False)
+    pagination = current_user.my_tasks().order_by(Task.date.desc(), Task.task_ref.asc()).paginate(page, 4, False)
     tasks = pagination.items
     return render_template('tasks/add_task.html', title='Add a task', form=form, tasks=tasks, pagination=pagination)
 
@@ -57,12 +52,14 @@ def add_task():
 @login_required
 def edit_task(id):
     task = Task.query.filter_by(id=id).first()
-    form = EditTaskForm()
-    if current_user.can(Permission.WRITE) and form.validate_on_submit():
+    form = EditTaskForm(form_name='PickTask')
+    form.client_id.choices = [(row.id, row.name) for row in Client.query.all()]
+    form.project_id.choices = [(row.id, row.name) for row in Project.query.all()]
+    if current_user.can(Permission.WRITE) and form.validate_on_submit() and request.form['form_name'] == 'PickTask':
         task.name = form.name.data
         task.client_id = form.client_id.data.id
         task.project_id = form.project_id.data.id
-        task.jira = form.jira.data
+        task.task_ref = form.task_ref.data
         task.duration = form.duration.data
         task.date = form.date.data
         task.rate = form.rate.data
@@ -75,7 +72,7 @@ def edit_task(id):
         form.name.data = task.name
         form.client_id.data = task.client_task
         form.project_id.data = task.project_task
-        form.jira.data = task.jira
+        form.task_ref.data = task.task_ref
         form.duration.data = task.duration
         form.date.data = task.date
         form.rate.data = task.rate
@@ -116,7 +113,7 @@ def my_tasks():
 @login_required
 def my_followed_tasks():
     page = request.args.get('page', 1, type=int)
-    pagination = current_user.followed_tasks().order_by(Task.date.desc(), Task.client_id.asc(), Task.jira.asc()).paginate(
+    pagination = current_user.followed_tasks().order_by(Task.date.desc(), Task.client_id.asc(), Task.task_ref.asc()).paginate(
         page, current_app.config['TASKS_PER_PAGE'], False)
     tasks = pagination.items
     return render_template('tasks/my_followed_tasks.html', title='My Followed Tasks', tasks=tasks, pagination=pagination)
@@ -126,7 +123,7 @@ def my_followed_tasks():
 @login_required
 def list_of_tasks():
     page = request.args.get('page', 1, type=int)
-    pagination = Task.query.order_by(Task.date.desc(), Task.client_id.asc(), Task.jira.asc()).paginate(
+    pagination = Task.query.order_by(Task.date.desc(), Task.client_id.asc(), Task.task_ref.asc()).paginate(
         page, current_app.config['TASKS_PER_PAGE'], False)
     tasks = pagination.items
     return render_template('tasks/list_of_tasks.html', title='List of tasks', tasks=tasks, pagination=pagination)

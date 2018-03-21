@@ -129,7 +129,7 @@ class User(UserMixin, db.Model):
 
     def my_tasks(self):
         own = Task.query.filter_by(user_id=self.id)
-        return own.order_by(Task.date.desc(), Task.client_id.asc(), Task.jira.asc())
+        return own.order_by(Task.date.desc(), Task.client_id.asc(), Task.task_ref.asc())
 
     def get_reset_password_token(self, expires_in=60):
         return jwt.encode({'reset_password': self.id, 'exp': time() + expires_in},
@@ -168,7 +168,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    jira = db.Column(db.String(16))
+    task_ref = db.Column(db.String(16))
     duration = db.Column(db.Numeric(4,2))
     date = db.Column(db.Date, index=True)
     comment = db.Column(db.String(240))

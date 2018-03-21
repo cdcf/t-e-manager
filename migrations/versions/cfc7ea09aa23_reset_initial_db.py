@@ -1,8 +1,8 @@
-"""initial creation
+"""reset initial db
 
-Revision ID: 49a15d7f61f8
+Revision ID: cfc7ea09aa23
 Revises: 
-Create Date: 2018-03-10 13:32:54.691251
+Create Date: 2018-03-20 14:44:11.429653
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '49a15d7f61f8'
+revision = 'cfc7ea09aa23'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -60,6 +60,8 @@ def upgrade():
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('description', sa.String(length=128), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('client_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['client_id'], ['client.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -68,7 +70,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('jira', sa.String(length=16), nullable=True),
+    sa.Column('task_ref', sa.String(length=16), nullable=True),
     sa.Column('duration', sa.Numeric(precision=4, scale=2), nullable=True),
     sa.Column('date', sa.Date(), nullable=True),
     sa.Column('comment', sa.String(length=240), nullable=True),

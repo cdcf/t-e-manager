@@ -64,11 +64,16 @@ def delete_project(id):
     return redirect(url_for('projects.add_project'))
 
 
-@bp.route('/list_of_projects')
+@bp.route('/list_of_projects', methods=['GET', 'POST'])
 @login_required
 def list_of_projects():
+    project_search = Project.query
+    form = ListProjectForm()
+    if form.validate_on_submit():
+        client = form.client_id.data
+        project_search = project_search.filter(Project.client_id==client.id).order_by(Project.name.asc())
     page = request.args.get('page', 1, type=int)
-    pagination = Project.query.order_by(Project.name.desc()).paginate(page, 5, False)
+    pagination = project_search.paginate(page, 5, False)
     projects = pagination.items
     return render_template('projects/list_of_projects.html', title='List of projects', projects=projects,
-                           pagination=pagination)
+                           pagination=pagination, form=form)

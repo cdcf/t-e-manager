@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <u>Task:</u> {{ task.name }}<br>
-                    <u>Jira ref:</u> {{ task.jira }}<br>
+                    <u>Task ref:</u> {{ task.task_ref }}<br>
                     <u>Duration:</u> {{ task.duration }} hours<br>
                     {% autoescape false %}
                     <u>Comments:</u> {{ task.comment | replace("\n", "<br/>") }}<br>

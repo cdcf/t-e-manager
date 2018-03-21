@@ -17,5 +17,5 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['cedric.dacostafaro@gmail.com']
-    TIME_TRACKER_ADMIN = os.environ.get('TIME_TRACKER_ADMIN')
+    T_E_MANAGER_ADMIN = os.environ.get('T_E_MANAGER_ADMIN')
     TASKS_PER_PAGE = 10
