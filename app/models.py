@@ -169,10 +169,10 @@ class Task(db.Model):
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     task_ref = db.Column(db.String(16))
-    duration = db.Column(db.Numeric(4,2))
+    duration = db.Column(db.Float(4,2))
     date = db.Column(db.Date, index=True)
-    comment = db.Column(db.String(240))
-    rate = db.Column(db.Numeric(6,2))
+    comment = db.Column(db.Text())
+    rate = db.Column(db.Float(6,2))
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
 
@@ -187,6 +187,8 @@ class Project(db.Model):
     tasks = db.relationship('Task', backref='project_task', lazy='dynamic')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
+    colour = db.Column(db.String(16))
+    expenses = db.relationship('Expense', backref='project_expense', lazy='dynamic')
 
     def __repr__(self):
         return '<Project>'.format(self.name)
@@ -197,8 +199,60 @@ class Client(db.Model):
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     address = db.Column(db.String(128))
+    colour = db.Column(db.String(16))
     tasks = db.relationship('Task', backref='client_task', lazy='dynamic')
     projects = db.relationship('Project', backref='client_project', lazy='dynamic')
+    expenses = db.relationship('Expense', backref='client_expense', lazy='dynamic')
 
     def __repr__(self):
         return '<Client>'.format(self.name)
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True)
+    colour = db.Column(db.String(16))
+    expenses = db.relationship('Expense', backref='category_expense', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Category>'.format(self.name)
+
+
+class CategoryType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True)
+    icon = db.Column(db.String(32))
+    expenses = db.relationship('Expense', backref='category_type_expense', lazy='dynamic')
+
+    def __repr__(self):
+        return '<CategoryType>'.format(self.name)
+
+
+class Currency(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True)
+    default = db.Column(db.Boolean())
+    expenses = db.relationship('Expense', backref='currency_expense', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Currency>'.format(self.name)
+
+
+class Expense(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    location = db.Column(db.String(128))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category_type_id = db.Column(db.Integer, db.ForeignKey('category_type.id'))
+    amount = db.Column(db.Float(6,2))
+    tax = db.Column(db.Float(6,2))
+    currency = db.Column(db.Integer, db.ForeignKey('currency.id'))
+    guest = db.Column(db.Boolean())
+    guest_list = db.Column(db.Text())
+    scan = db.Column(db.String(32))
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+
+    def __repr__(self):
+        return '<Expense>'.format(self.name)

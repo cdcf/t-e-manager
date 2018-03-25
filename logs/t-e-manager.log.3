@@ -1,0 +1,120 @@
+2018-03-21 09:19:56,817 ERROR: Exception on /list_of_projects [GET] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 76, in list_of_projects
+    pagination = project_search.paginate(page, 5, False)
+AttributeError: 'list' object has no attribute 'paginate'
+2018-03-21 09:24:22,908 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:24:37,025 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.query.filter_by(Project.client_id==client.id).order_by(Project.name.asc())
+AttributeError: 'BaseQuery' object has no attribute 'query'
+2018-03-21 09:26:11,766 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:26:18,194 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.query.filter_by(Project.client_id==client.id).order_by(Project.name.asc())
+AttributeError: 'BaseQuery' object has no attribute 'query'
+2018-03-21 09:26:53,853 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:27:05,047 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.query.filter_by(Project.client_id==client.id).order_by(Project.name.asc())
+AttributeError: 'BaseQuery' object has no attribute 'query'
+2018-03-21 09:40:12,235 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:40:20,572 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.query.filter_by(Project.client_id==client.id).order_by(Project.name.asc())
+AttributeError: 'BaseQuery' object has no attribute 'query'
+2018-03-21 09:41:42,504 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:41:49,723 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.filter_by(Project.client_id==client.id).order_by(Project.name.asc())
+AttributeError: 'int' object has no attribute 'id'
+2018-03-21 09:42:40,784 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]

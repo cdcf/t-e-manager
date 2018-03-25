@@ -13,9 +13,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 {% if current_user.is_authenticated %}
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">T&E Manager</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}"><img class="center-block img-responsive" src="static/image/logo.png" height="24" width="24" alt="t-e-manager"></a>
                 {% else %}
-                <a class="navbar-brand" href="{{ url_for('auth.login') }}">T&E Manager</a>
+                <a class="navbar-brand" href="{{ url_for('auth.login') }}"><img class="center-block img-responsive" src="static/image/logo.png" height="24" width="24" alt="t-e-manager"></a>
                 {% endif %}
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
