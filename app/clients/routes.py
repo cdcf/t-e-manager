@@ -13,7 +13,7 @@ from app.decorators import admin_required
 @login_required
 def add_client():
     form = ClientForm()
-    if form.validate_on_submit():
+    if current_user.can(Permission.WRITE) and form.validate_on_submit():
         client = Client(name=form.name.data,
                         address=form.address.data,
                         user_id=current_user.id)
@@ -33,7 +33,7 @@ def add_client():
 def edit_client(id):
     client = Client.query.filter_by(id=id).first()
     form = EditClientForm()
-    if form.validate_on_submit():
+    if current_user.can(Permission.WRITE) and form.validate_on_submit():
         client.name = form.name.data
         client.address = form.address.data
         db.session.add(client)

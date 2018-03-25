@@ -1,0 +1,21 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-9">
+                    <p>{{ currency.name }}</p>
+                    <p>{{ currency.default }}</p>
+                    <p></p>
+                </div>
+                <div class="col-md-3">
+                    <div class="btn pull-right">
+                        <a class="btn btn-primary" href="{{ url_for('currencies.edit_currency', id=currency.id) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        {% if current_user.is_administrator %}
+                            <form method="post" action="{{ url_for('currencies.delete_currency', id=currency.id) }}"><button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span></button></form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

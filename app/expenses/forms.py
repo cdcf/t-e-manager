@@ -1,7 +1,7 @@
 __author__ = 'Cedric Da Costa Faro'
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, DecimalField
+from wtforms import StringField, SubmitField, BooleanField, DecimalField, DateField
 from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from app.models import Category, CategoryType, Currency, Client, Project
@@ -28,6 +28,8 @@ def get_currencies():
 
 
 class ExpenseForm(FlaskForm):
+    date = DateField('Date', validators=[DataRequired()], format='%d/%m/%Y', default=datetime.date.today(),
+                     id='date_picker')
     name = StringField('Category Type', validators=[DataRequired()])
     location = StringField('Location')
     category_id = QuerySelectField('Expense Category', validators=[DataRequired()],
@@ -42,7 +44,7 @@ class ExpenseForm(FlaskForm):
                                         blank_text=u'-- Please choose a category type --')
     amount = DecimalField('Amount')
     tax = StringField('Tax')
-    currency = QuerySelectField('Currency', validators=[DataRequired()],
+    currency_id = QuerySelectField('Currency', validators=[DataRequired()],
                                 query_factory=get_currencies(),
                                 allow_blank=True,
                                 get_label='name',
@@ -64,6 +66,8 @@ class ExpenseForm(FlaskForm):
 
 
 class EditExpenseForm(FlaskForm):
+    date = DateField('Date', validators=[DataRequired()], format='%d/%m/%Y', default=datetime.date.today(),
+                     id='date_picker')
     name = StringField('Category Type', validators=[DataRequired()])
     location = StringField('Location')
     category_id = QuerySelectField('Expense Category', validators=[DataRequired()],
@@ -100,6 +104,8 @@ class EditExpenseForm(FlaskForm):
 
 
 class ExpenseListForm(FlaskForm):
+    date_from = DateField('Date From', validators=[DataRequired()], format='%d/%m/%Y', id='from_date_picker')
+    date_to = DateField('Date To', validators=[DataRequired()], format='%d/%m/%Y', id='to_date_picker')
     category_id = QuerySelectField('Expense Category',
                                    query_factory=get_categories(),
                                    allow_blank=True,

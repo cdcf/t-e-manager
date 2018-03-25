@@ -22,6 +22,7 @@
 {% endblock %}
 
 {% block scripts %}
+    {# Script to manage the date picker #}
     {{ super() }}
     <script type="text/javascript">
             $(function () {
@@ -30,6 +31,8 @@
         });
             });
     </script>
+
+    {# Script to manage the drop down select fields and links between them #}
     <script charset="utf-8" type="text/javascript">
 
         $(function() {

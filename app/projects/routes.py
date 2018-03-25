@@ -1,6 +1,6 @@
 __author__ = 'Cedric Da Costa Faro'
 
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, current_app
 from flask_login import current_user, login_required
 from app import db
 from app.projects import bp
@@ -73,7 +73,7 @@ def list_of_projects():
         client = form.client_id.data
         project_search = project_search.filter(Project.client_id==client.id).order_by(Project.name.asc())
     page = request.args.get('page', 1, type=int)
-    pagination = project_search.paginate(page, 5, False)
+    pagination = project_search.paginate(page, current_app.config['TASKS_PER_PAGE'], False)
     projects = pagination.items
     return render_template('projects/list_of_projects.html', title='List of projects', projects=projects,
                            pagination=pagination, form=form)

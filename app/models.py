@@ -11,8 +11,8 @@ from app import db, login
 
 
 followers = db.Table('followers',
-    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
+                     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+                     db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
 
 class Permission:
@@ -86,6 +86,10 @@ class User(UserMixin, db.Model):
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
     clients = db.relationship('Client', backref='user_client', lazy='dynamic')
     projects = db.relationship('Project', backref='user_project', lazy='dynamic')
+    categories = db.relationship('Category', backref='user_category', lazy='dynamic')
+    category_types = db.relationship('Category Type', backref='user_category_type', lazy='dynamic')
+    currencies = db.relationship('Currency', backref='user_currency', lazy='dynamic')
+    expenses = db.relationship('Expense', backref='user_expense', lazy='dynamic')
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     def __init__(self, **kwargs):
@@ -157,7 +161,9 @@ class AnonymousUser(AnonymousUserMixin):
     def is_administrator(self):
         return False
 
+
 login.anonymous_user = AnonymousUser
+
 
 @login.user_loader
 def load_user(id):
@@ -169,10 +175,10 @@ class Task(db.Model):
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     task_ref = db.Column(db.String(16))
-    duration = db.Column(db.Float(4,2))
+    duration = db.Column(db.Float(4, 2))
     date = db.Column(db.Date, index=True)
     comment = db.Column(db.Text())
-    rate = db.Column(db.Float(6,2))
+    rate = db.Column(db.Float(6, 2))
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
 
@@ -210,7 +216,8 @@ class Client(db.Model):
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True)
+    name = db.Column(db.String(64), index=True, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     colour = db.Column(db.String(16))
     expenses = db.relationship('Expense', backref='category_expense', lazy='dynamic')
 
@@ -220,7 +227,8 @@ class Category(db.Model):
 
 class CategoryType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True)
+    name = db.Column(db.String(64), index=True, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     icon = db.Column(db.String(32))
     expenses = db.relationship('Expense', backref='category_type_expense', lazy='dynamic')
 
@@ -230,8 +238,9 @@ class CategoryType(db.Model):
 
 class Currency(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True)
-    default = db.Column(db.Boolean())
+    name = db.Column(db.String(64), index=True, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    default = db.Column(db.Boolean(), unique=True)
     expenses = db.relationship('Expense', backref='currency_expense', lazy='dynamic')
 
     def __repr__(self):
@@ -240,14 +249,15 @@ class Currency(db.Model):
 
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, index=True)
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     location = db.Column(db.String(128))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category_type_id = db.Column(db.Integer, db.ForeignKey('category_type.id'))
-    amount = db.Column(db.Float(6,2))
-    tax = db.Column(db.Float(6,2))
-    currency = db.Column(db.Integer, db.ForeignKey('currency.id'))
+    amount = db.Column(db.Float(6, 2))
+    tax = db.Column(db.Float(6, 2))
+    currency_id = db.Column(db.Integer, db.ForeignKey('currency.id'))
     guest = db.Column(db.Boolean())
     guest_list = db.Column(db.Text())
     scan = db.Column(db.String(32))
