@@ -7,46 +7,24 @@ from app.models import Currency
 
 
 class CurrencyForm(FlaskForm):
-    name = StringField('Currency', validators=[DataRequired()])
-    default = BooleanField('Default currency')
+    name = StringField('Currency Code', validators=[DataRequired()])
+    description = StringField('Currency Name')
+    default_curr = BooleanField('')
     submit = SubmitField('Save')
 
-    def __init__(self, original_name, original_default, *args, **kwargs):
-        super(CurrencyForm, self).__init__(*args, **kwargs)
-        self.original_name = original_name
-        self.original_default = original_default
-
-    def validate_name(self, name):
-        if name.data != self.original_name:
-            currency = Currency.query.filter_by(name=self.name.data).first()
-            if currency is not None:
-                raise ValidationError('Currency already in use, please use a different one.')
-
-    def validate_default(self, default):
-        if default.data != self.original_default:
-            currency = Currency.query.filter_by(default=self.default.data).first()
-            if currency is not None:
-                raise ValidationError('A default currency has already been set, you cannot make this one as default.')
+    def validate_default_curr(self, default_curr):
+        currency = Currency.query.filter(default_curr.data==True).first()
+        if currency is not None:
+            raise ValidationError('Default currency has already been set, you cannot add another default.')
 
 
 class EditCurrencyForm(FlaskForm):
     name = StringField('Currency', validators=[DataRequired()])
-    default = BooleanField('Default currency')
+    description = StringField('Currency Name')
+    default_curr = BooleanField('')
     submit = SubmitField('Save')
 
-    def __init__(self, original_name, original_default, *args, **kwargs):
-        super(EditCurrencyForm, self).__init__(*args, **kwargs)
-        self.original_name = original_name
-        self.original_default = original_default
-
-    def validate_name(self, name):
-        if name.data != self.original_name:
-            currency = Currency.query.filter_by(name=self.name.data).first()
-            if currency is not None:
-                raise ValidationError('Currency already in use, please use a different one.')
-
-    def validate_default(self, default):
-        if default.data != self.original_default:
-            currency = Currency.query.filter_by(default=self.default.data).first()
-            if currency is not None:
-                raise ValidationError('A default currency has already been set, you cannot make this one as default.')
+    def validate_default_curr(self, default_curr):
+        currency = Currency.query.filter(default_curr.data==True).first()
+        if currency is not None:
+            raise ValidationError('Default currency has already been set, you cannot add another default.')

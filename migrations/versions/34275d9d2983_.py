@@ -1,8 +1,8 @@
-"""reset initial db
+"""empty message
 
-Revision ID: cfc7ea09aa23
+Revision ID: 34275d9d2983
 Revises: 
-Create Date: 2018-03-20 14:44:11.429653
+Create Date: 2018-03-27 06:54:29.770176
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cfc7ea09aa23'
+revision = '34275d9d2983'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -45,10 +45,21 @@ def upgrade():
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('address', sa.String(length=128), nullable=True),
+    sa.Column('colour', sa.String(length=16), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_client_name'), 'client', ['name'], unique=False)
+    op.create_table('currency',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=4), nullable=True),
+    sa.Column('description', sa.String(length=64), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('default_curr', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_currency_name'), 'currency', ['name'], unique=True)
     op.create_table('followers',
     sa.Column('follower_id', sa.Integer(), nullable=True),
     sa.Column('followed_id', sa.Integer(), nullable=True),
@@ -61,6 +72,7 @@ def upgrade():
     sa.Column('description', sa.String(length=128), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('client_id', sa.Integer(), nullable=True),
+    sa.Column('colour', sa.String(length=16), nullable=True),
     sa.ForeignKeyConstraint(['client_id'], ['client.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -71,10 +83,10 @@ def upgrade():
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('task_ref', sa.String(length=16), nullable=True),
-    sa.Column('duration', sa.Numeric(precision=4, scale=2), nullable=True),
+    sa.Column('duration', sa.Float(precision=4, asdecimal=2), nullable=True),
     sa.Column('date', sa.Date(), nullable=True),
-    sa.Column('comment', sa.String(length=240), nullable=True),
-    sa.Column('rate', sa.Numeric(precision=6, scale=2), nullable=True),
+    sa.Column('comment', sa.Text(), nullable=True),
+    sa.Column('rate', sa.Float(precision=6, asdecimal=2), nullable=True),
     sa.Column('client_id', sa.Integer(), nullable=True),
     sa.Column('project_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['client_id'], ['client.id'], ),
@@ -95,6 +107,8 @@ def downgrade():
     op.drop_index(op.f('ix_project_name'), table_name='project')
     op.drop_table('project')
     op.drop_table('followers')
+    op.drop_index(op.f('ix_currency_name'), table_name='currency')
+    op.drop_table('currency')
     op.drop_index(op.f('ix_client_name'), table_name='client')
     op.drop_table('client')
     op.drop_index(op.f('ix_user_username'), table_name='user')

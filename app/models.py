@@ -86,16 +86,13 @@ class User(UserMixin, db.Model):
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
     clients = db.relationship('Client', backref='user_client', lazy='dynamic')
     projects = db.relationship('Project', backref='user_project', lazy='dynamic')
-    categories = db.relationship('Category', backref='user_category', lazy='dynamic')
-    category_types = db.relationship('Category Type', backref='user_category_type', lazy='dynamic')
     currencies = db.relationship('Currency', backref='user_currency', lazy='dynamic')
-    expenses = db.relationship('Expense', backref='user_expense', lazy='dynamic')
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
-            if self.email == current_app.config['TIME_TRACKER_ADMIN']:
+            if self.email == current_app.config['T_E_MANAGER_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xff).first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
@@ -194,7 +191,6 @@ class Project(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     colour = db.Column(db.String(16))
-    expenses = db.relationship('Expense', backref='project_expense', lazy='dynamic')
 
     def __repr__(self):
         return '<Project>'.format(self.name)
@@ -208,61 +204,17 @@ class Client(db.Model):
     colour = db.Column(db.String(16))
     tasks = db.relationship('Task', backref='client_task', lazy='dynamic')
     projects = db.relationship('Project', backref='client_project', lazy='dynamic')
-    expenses = db.relationship('Expense', backref='client_expense', lazy='dynamic')
 
     def __repr__(self):
         return '<Client>'.format(self.name)
 
 
-class Category(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    colour = db.Column(db.String(16))
-    expenses = db.relationship('Expense', backref='category_expense', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Category>'.format(self.name)
-
-
-class CategoryType(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    icon = db.Column(db.String(32))
-    expenses = db.relationship('Expense', backref='category_type_expense', lazy='dynamic')
-
-    def __repr__(self):
-        return '<CategoryType>'.format(self.name)
-
-
 class Currency(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(4), index=True, unique=True)
+    description = db.Column(db.String(64))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    default = db.Column(db.Boolean(), unique=True)
-    expenses = db.relationship('Expense', backref='currency_expense', lazy='dynamic')
+    default_curr = db.Column(db.Boolean())
 
     def __repr__(self):
         return '<Currency>'.format(self.name)
-
-
-class Expense(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, index=True)
-    name = db.Column(db.String(64), index=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    location = db.Column(db.String(128))
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    category_type_id = db.Column(db.Integer, db.ForeignKey('category_type.id'))
-    amount = db.Column(db.Float(6, 2))
-    tax = db.Column(db.Float(6, 2))
-    currency_id = db.Column(db.Integer, db.ForeignKey('currency.id'))
-    guest = db.Column(db.Boolean())
-    guest_list = db.Column(db.Text())
-    scan = db.Column(db.String(32))
-    client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
-
-    def __repr__(self):
-        return '<Expense>'.format(self.name)

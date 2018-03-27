@@ -15,7 +15,8 @@ def add_currency():
     form = CurrencyForm()
     if current_user.can(Permission.WRITE) and form.validate_on_submit():
         currency = Currency(name=form.name.data,
-                            default=form.default.data,
+                            description=form.description.data,
+                            default_curr=form.default_curr.data,
                             user_id=current_user.id)
         db.session.add(currency)
         db.session.commit()
@@ -35,18 +36,20 @@ def edit_currency(id):
     form = EditCurrencyForm()
     if current_user.can(Permission.WRITE) and form.validate_on_submit():
         currency.name = form.name.data
-        currency.default = form.default.data
+        currency.description = form.description.data
+        currency.default_curr = form.default_curr.data
         db.session.add(currency)
         db.session.commit()
         flash('Your changes have been saved.', 'success')
-        return redirect(url_for('currencies.add_currency'))
+        return redirect(url_for('currencies.edit_currency', id=id))
     elif request.method == 'GET':
         form.name.data = currency.name
-        form.default.data = currency.default
+        form.description.data = currency.description
+        form.default_curr.data = currency.default_curr
     page = request.args.get('page', 1, type=int)
     pagination = Currency.query.order_by(Currency.name.desc()).paginate(page, 5, False)
     currencies = pagination.items
-    return render_template('settings/edit_currency.html', title='Edit Currency', form=form,
+    return render_template('settings/edit_currency.html', title='Edit a Currency', form=form,
                            currencies=currencies, pagination=pagination)
 
 
@@ -58,7 +61,7 @@ def delete_currency(id):
     db.session.delete(currency)
     db.session.commit()
     flash('Currency has been deleted successfully.', 'success')
-    return redirect(url_for('currencies.edit_currency'))
+    return redirect(url_for('currencies.add_currency'))
 
 
 @bp.route('/list_of_currencies')

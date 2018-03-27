@@ -1,4 +1,4 @@
-2018-03-20 14:26:08,781 ERROR: Exception on /edit_task/5 [GET] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+2018-03-21 09:43:01,798 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
 Traceback (most recent call last):
   File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
@@ -14,61 +14,11 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/Users/cdcf/t-e-manager/app/tasks/routes.py", line 88, in edit_task
-    return render_template('tasks/edit_task.html', title='Edit Task', id=id, form=form, tasks=tasks, pagination=pagination)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/templating.py", line 134, in render_template
-    context, ctx.app)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/templating.py", line 116, in _render
-    rv = template.render(context)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/asyncsupport.py", line 76, in render
-    return original_render(self, *args, **kwargs)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/environment.py", line 780, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/_compat.py", line 37, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/cdcf/t-e-manager/app/templates/tasks/edit_task.html", line 3, in top-level template code
-    {% import "_macros.html" as macros %}
-  File "/Users/cdcf/t-e-manager/app/templates/base.html", line 1, in top-level template code
-    {% extends 'bootstrap/base.html' %}
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
-    {% block content -%}
-  File "/Users/cdcf/t-e-manager/app/templates/base.html", line 76, in block "content"
-    {% block app_content %}{% endblock %}
-  File "/Users/cdcf/t-e-manager/app/templates/tasks/edit_task.html", line 18, in block "app_content"
-    {{ macros.pagination_widget(pagination, 'tasks.edit_task') }}
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/jinja2/runtime.py", line 579, in _invoke
-    rv = self._func(*arguments)
-  File "/Users/cdcf/t-e-manager/app/templates/_macros.html", line 12, in template
-    <a href="{{ url_for(endpoint, page = p, **kwargs) }}">{{ p }}</a>
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/helpers.py", line 333, in url_for
-    return appctx.app.handle_url_build_error(error, endpoint, values)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1805, in handle_url_build_error
-    reraise(exc_type, exc_value, tb)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
-    raise value
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/helpers.py", line 323, in url_for
-    force_external=external)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/werkzeug/routing.py", line 1776, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.BuildError: Could not build url for endpoint 'tasks.edit_task' with values ['page']. Did you forget to specify values ['id']?
-2018-03-20 14:26:56,912 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-20 14:30:30,120 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-20 14:42:53,849 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-20 14:43:07,526 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-20 14:43:51,736 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-20 14:44:11,393 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-20 14:44:17,681 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-21 08:57:33,350 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-21 09:01:35,791 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-21 09:04:37,790 ERROR: Exception on /list_of_projects [GET] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.filter_by(Project.client_id==client.id).order_by(Project.name.asc())
+TypeError: filter_by() takes 1 positional argument but 2 were given
+2018-03-21 09:47:35,464 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:47:44,546 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
 Traceback (most recent call last):
   File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
@@ -84,11 +34,43 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 76, in list_of_projects
-    pagination = project_search.paginate(page, 5, False)
-AttributeError: 'list' object has no attribute 'paginate'
-2018-03-21 09:14:19,645 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-21 09:14:27,546 ERROR: Exception on /list_of_projects [GET] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.filter(Project.client_id==client).order_by(Project.name.asc())
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/operators.py", line 304, in __eq__
+    return self.operate(eq, other)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/orm/attributes.py", line 175, in operate
+    return op(self.comparator, *other, **kwargs)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/operators.py", line 304, in __eq__
+    return self.operate(eq, other)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/orm/properties.py", line 270, in operate
+    return op(self.__clause_element__(), *other, **kwargs)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/annotation.py", line 102, in __eq__
+    return self.__element.__class__.__eq__(self, other)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/operators.py", line 304, in __eq__
+    return self.operate(eq, other)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 686, in operate
+    return op(self.comparator, *other, **kwargs)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/operators.py", line 304, in __eq__
+    return self.operate(eq, other)
+  File "<string>", line 1, in <lambda>
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/type_api.py", line 63, in operate
+    return o[0](self.expr, op, *(other + o[1:]), **kwargs)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/default_comparator.py", line 64, in _boolean_compare
+    obj = _check_literal(expr, op, obj)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/default_comparator.py", line 307, in _check_literal
+    return expr._bind_param(operator, other, type_=bindparam_type)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 3815, in _bind_param
+    unique=True)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 1094, in __init__
+    _compared_to_operator, value)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/type_api.py", line 523, in coerce_compared_value
+    _coerced_type = _resolve_value_to_type(value)
+  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/sqlalchemy/sql/sqltypes.py", line 2621, in _resolve_value_to_type
+    "Object %r is not legal as a SQL literal value" % value)
+sqlalchemy.exc.ArgumentError: Object <Client> is not legal as a SQL literal value
+2018-03-21 09:48:37,925 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:49:30,089 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:49:43,812 ERROR: Exception on /list_of_projects [POST] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
 Traceback (most recent call last):
   File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
@@ -104,27 +86,18 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 76, in list_of_projects
-    pagination = project_search.paginate(page, 5, False)
-AttributeError: 'list' object has no attribute 'paginate'
-2018-03-21 09:15:59,998 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
-2018-03-21 09:16:09,863 ERROR: Exception on /list_of_projects [GET] [in /Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py:1560]
-Traceback (most recent call last):
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
-    raise value
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/cdcf/t-e-manager/venv/lib/python3.6/site-packages/flask_login/utils.py", line 261, in decorated_view
-    return func(*args, **kwargs)
-  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 76, in list_of_projects
-    pagination = project_search.paginate(page, 5, False)
-AttributeError: 'list' object has no attribute 'paginate'
-2018-03-21 09:19:48,526 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+  File "/Users/cdcf/t-e-manager/app/projects/routes.py", line 74, in list_of_projects
+    project_search = project_search.filter(Project.client_id==client.id).order_by(Project.name.asc())
+AttributeError: 'NoneType' object has no attribute 'id'
+2018-03-21 09:50:01,403 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:53:09,680 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:55:21,146 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:56:25,280 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:57:15,604 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 09:58:43,617 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 10:01:40,221 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 10:02:44,795 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 23:30:36,308 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 23:35:34,929 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 23:36:17,931 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]
+2018-03-21 23:36:38,665 INFO: t-e-manager startup [in /Users/cdcf/t-e-manager/app/__init__.py:80]

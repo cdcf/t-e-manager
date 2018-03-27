@@ -39,14 +39,14 @@ def edit_client(id):
         db.session.add(client)
         db.session.commit()
         flash('Your changes have been saved.', 'success')
-        return redirect(url_for('clients.add_client'))
+        return redirect(url_for('clients.edit_client', id=id))
     elif request.method == 'GET':
         form.name.data = client.name
         form.address.data = client.address
     page = request.args.get('page', 1, type=int)
     pagination = Client.query.order_by(Client.name.desc()).paginate(page, 5, False)
     clients = pagination.items
-    return render_template('clients/edit_client.html', title='Edit Client', form=form, clients=clients,
+    return render_template('clients/edit_client.html', title='Edit a Client', form=form, clients=clients,
                            pagination=pagination)
 
 

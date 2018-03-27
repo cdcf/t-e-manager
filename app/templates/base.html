@@ -26,6 +26,11 @@
                     <li><a href="{{ url_for('projects.add_project') }}">Project</a></li>
                     <li><a href="#">Expense</a></li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Set Up<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Categories</a></li>
+                            <li><a href="#">Category Types</a></li>
+                            <li><a href="{{ url_for('currencies.add_currency') }}">Currencies</a></li>
+                        </ul>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Reporting<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url_for('tasks.my_tasks') }}">My Tasks</a></li>
@@ -80,6 +85,11 @@
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
+    {# script to customize the date picker #}
     <script src="{{ url_for('static', filename='bootstrap-datetimepicker.min.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap-datetimepicker.min.css') }}" />
+
+    {# script to customize the check boxes into data toggle #}
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 {% endblock %}

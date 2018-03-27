@@ -51,15 +51,6 @@ def create_app(config_class=Config):
     from app.tasks import bp as tasks_bp
     app.register_blueprint(tasks_bp)
 
-    from app.expenses import bp as expenses_bp
-    app.register_blueprint(expenses_bp)
-
-    from app.categories import bp as categories_bp
-    app.register_blueprint(categories_bp)
-
-    from app.category_types import bp as category_types_bp
-    app.register_blueprint(category_types_bp)
-
     from app.currencies import bp as currencies_bp
     app.register_blueprint(currencies_bp)
 
