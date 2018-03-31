@@ -3,6 +3,7 @@
 {% import "_macros.html" as macros %}
 
 {% block app_content %}
+    <h1>List of Clients</h1>
     <div class="pagination">
         {% for client in clients %}
             {% include 'clients/_client.html' %}

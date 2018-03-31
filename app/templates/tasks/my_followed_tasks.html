@@ -3,6 +3,7 @@
 {% import "_macros.html" as macros %}
 
 {% block app_content %}
+    <h1>List of my Followed Tasks</h1>
     <div class="pagination">
         {% for task in tasks %}
             {% include 'tasks/_task.html' %}
