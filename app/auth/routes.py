@@ -12,20 +12,14 @@ from app.auth.email import send_password_reset_email
 
 
 @bp.route('/login', methods=['GET', 'POST'])
+@login_required
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password', 'danger')
-            return redirect(url_for('auth.login'))
-        login_user(user, remember=form.remember_me.data)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('main.index')
-        return redirect(next_page)
+            return redirect(url_for('main.index'))
     return render_template('auth/login.html', title='Sign In', form=form)
 
 
@@ -46,7 +40,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('You are now a registered user!', 'success')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('main.index'))
     return render_template('auth/register.html', title='Register', form=form)
 
 

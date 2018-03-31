@@ -16,7 +16,7 @@ def get_projects():
     return Project.query
 
 
-def get_currency():
+def get_currencies():
     return Currency.query
 
 
@@ -45,7 +45,7 @@ class TaskForm(FlaskForm):
                      id='date_picker')
     rate = DecimalField('Rate', validators=[DataRequired()])
     currency_id = QuerySelectField('Currency', validators=[DataRequired()],
-                                   query_factory=get_currency,
+                                   query_factory=get_currencies,
                                    allow_blank=True,
                                    get_label='name',
                                    default=get_default_currency)
@@ -72,7 +72,7 @@ class EditTaskForm(FlaskForm):
     date = DateField('Date', validators=[DataRequired()], format='%d/%m/%Y', id='date_picker')
     rate = DecimalField('Rate', validators=[DataRequired()])
     currency_id = QuerySelectField('Currency', validators=[DataRequired()],
-                                   query_factory=get_currency,
+                                   query_factory=get_currencies,
                                    allow_blank=True,
                                    get_label='name')
     comment = TextAreaField('Comments', validators=[Length(min=0, max=140)])

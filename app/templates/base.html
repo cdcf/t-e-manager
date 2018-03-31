@@ -24,7 +24,7 @@
                     <li><a href="{{ url_for('tasks.add_task') }}">Task</a></li>
                     <li><a href="{{ url_for('clients.add_client') }}">Client</a></li>
                     <li><a href="{{ url_for('projects.add_project') }}">Project</a></li>
-                    <li><a href="#">Expense</a></li>
+                    <li><a href="{{ url_for('expenses.add_expense') }}">Expense</a></li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url_for('categories.add_category') }}">Categories</a></li>
@@ -40,22 +40,26 @@
                             <li><a href="{{ url_for('clients.list_of_clients') }}">List of Clients</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ url_for('projects.list_of_projects') }}">List of Projects</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('expenses.my_expenses') }}">My Expenses</a></li>
+                            <li><a href="{{ url_for('expenses.list_of_expenses') }}">List of Expenses</a></li>
                         </ul>
                     </li>
                     {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                        <li><a href="{{ url_for('auth.register_admin') }}">Add account</a></li>
+                        <li><a href="{{ url_for('auth.login') }}">Login</a></li>
                     {% else %}
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ current_user.avatar(size=18) }}"> {{ current_user.username }} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ url_for('main.user', username=current_user.username) }}">View Profile</a></li>
-                            <li><a href="{{ url_for('main.list_of_users') }}">List of Users</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ current_user.avatar(size=18) }}"> {{ current_user.username }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url_for('main.user', username=current_user.username) }}">View Profile</a></li>
+                                <li><a href="{{ url_for('main.list_of_users') }}">List of Users</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('auth.register') }}">Add user</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
                     {% endif %}
                 </ul>
             </div>

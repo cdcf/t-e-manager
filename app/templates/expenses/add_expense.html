@@ -3,7 +3,7 @@
 {% import "_macros.html" as macros %}
 
 {% block app_content %}
-    <h1>Add a Task</h1>
+    <h1>Add an Expense</h1>
     <div class="row">
         <div class="col-md-6">
             {% if current_user.can(Permission.WRITE) %}
@@ -12,10 +12,10 @@
         </div>
         <div class="col-md-6">
             <div class="pagination">
-                {% for task in tasks %}
-                    {% include 'tasks/_task.html' %}
+                {% for expense in expenses %}
+                    {% include 'expenses/_expense.html' %}
                 {% endfor %}
-            {{ macros.pagination_widget(pagination, 'tasks.add_task') }}
+            {{ macros.pagination_widget(pagination, 'expenses.add_expense') }}
             </div>
         </div>
     </div>
@@ -23,7 +23,16 @@
 
 {% block scripts %}
     {{ super() }}
-    {# Script to manage the date picker #}
+    {# Script to manage the Guest toggle button #}
+    <script>
+      $(function() {
+        $('#guest').bootstrapToggle({
+          on: 'Yes',
+          off: 'No'
+        });
+      })
+    </script>
+
     <script type="text/javascript">
             $(function () {
                 $('#date_picker').datetimepicker({
@@ -37,14 +46,17 @@
 
         $(function() {
 
-        // jQuery selection for the 2 select boxes
+        // jQuery selection for the select boxes
         var dropdown = {
             client_id: $('#select_client'),
-            project_id: $('#select_project')
+            project_id: $('#select_project'),
+            category_id: $('#select_category'),
+            category_type_id: $('#select_category_type')
         };
 
         // call to update on load
         updateProjects_id();
+        updateCategory_types_id();
 
         // function to call XHR and update project drop down
         function updateProjects_id() {
@@ -53,7 +65,7 @@
             };
             dropdown.project_id.attr('disabled', 'disabled');
             dropdown.project_id.empty();
-            $.getJSON("{{ url_for('tasks._get_projects') }}", send, function(data) {
+            $.getJSON("{{ url_for('expenses._get_projects') }}", send, function(data) {
                 data.forEach(function(item) {
                     dropdown.project_id.append(
                         $('<option>', {
@@ -65,10 +77,33 @@
                 dropdown.project_id.removeAttr('disabled');
             });
         }
+        // function to call XHR and update category_type drop down
+        function updateCategory_types_id() {
+            var send = {
+                category_id: dropdown.category_id.val()
+            };
+            dropdown.category_type_id.attr('disabled', 'disabled');
+            dropdown.category_type_id.empty();
+            $.getJSON("{{ url_for('expenses._get_categories') }}", send, function(data) {
+                data.forEach(function(item) {
+                    dropdown.category_type_id.append(
+                        $('<option>', {
+                            value: item[0],
+                            text: item[1]
+                        })
+                    );
+                });
+                dropdown.category_type_id.removeAttr('disabled');
+            });
+        }
 
         // event listener to client drop down change
         dropdown.client_id.on('change', function() {
             updateProjects_id();
+        });
+        // event listener to category drop down change
+        dropdown.category_id.on('change', function() {
+            updateCategory_types_id();
         });
 
     });

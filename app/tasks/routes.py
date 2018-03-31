@@ -6,11 +6,11 @@ from flask_login import current_user, login_required
 from app import db
 from app.tasks import bp
 from app.tasks.forms import TaskForm, EditTaskForm, ListTaskForm
-from app.models import Task, Permission, Client, Project, Currency
+from app.models import Task, Permission, Client, Project
 from app.decorators import admin_required
 
 
-@bp.route('/_get_projects/')
+@bp.route('/_get_projects')
 def _get_projects():
     client_id = request.args.get('client_id', '01', type=str)
     projects_id = [(row.id, row.name) for row in Project.query.filter_by(client_id=client_id).all()]
@@ -25,7 +25,8 @@ def add_task():
     form.project_id.choices = [(row.id, row.name) for row in Project.query.all()]
     if request.method == 'GET':
         page = request.args.get('page', 1, type=int)
-        pagination = current_user.my_tasks().order_by(Task.date.desc(), Task.task_ref.asc()).paginate(page, 4, False)
+        pagination = current_user.my_tasks().order_by(Task.date.desc(),
+                                                      Task.task_ref.asc()).paginate(page, 4, False)
         tasks = pagination.items
         return render_template('tasks/add_task.html', title='Add a task', form=form, tasks=tasks, pagination=pagination)
     if current_user.can(Permission.WRITE) and form.validate_on_submit() and request.form['form_name'] == 'PickTask':
@@ -106,7 +107,8 @@ def my_tasks():
     if form.validate_on_submit():
         date_from = form.date_from.data
         date_to = form.date_to.data
-        task_search = task_search.filter(func.date(Task.date) >= date_from, func.date(Task.date) <= date_to)
+        task_search = task_search.filter(func.date(Task.date) >= date_from,
+                                         func.date(Task.date) <= date_to)
     page = request.args.get('page', 1, type=int)
     pagination = task_search.paginate(page, current_app.config['TASKS_PER_PAGE'], False)
     tasks = pagination.items
