@@ -15,7 +15,7 @@
                 {% for project in projects %}
                     {% include 'projects/_project.html' %}
                 {% endfor %}
-            {{ macros.pagination_widget(pagination, 'projects.add_project') }}
+            {{ macros.pagination_widget(pagination, 'projects.add_project', id=id) }}
             </div>
         </div>
     </div>

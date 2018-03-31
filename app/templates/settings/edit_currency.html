@@ -15,7 +15,7 @@
                 {% for currency in currencies %}
                     {% include 'settings/_currency.html' %}
                 {% endfor %}
-            {{ macros.pagination_widget(pagination, 'currencies.add_currency') }}
+            {{ macros.pagination_widget(pagination, 'currencies.edit_currency', id=id) }}
             </div>
         </div>
     </div>

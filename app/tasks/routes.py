@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from app import db
 from app.tasks import bp
 from app.tasks.forms import TaskForm, EditTaskForm, ListTaskForm
-from app.models import Task, Permission, Client, Project
+from app.models import Task, Permission, Client, Project, Currency
 from app.decorators import admin_required
 
 
@@ -37,7 +37,8 @@ def add_task():
                     duration=form.duration.data,
                     date=form.date.data,
                     rate=form.rate.data,
-                    comment=form.comment.data)
+                    comment=form.comment.data,
+                    currency_id=form.currency_id.data.id)
         db.session.add(task)
         db.session.commit()
         flash('Your task has been added!', 'success')
@@ -64,10 +65,11 @@ def edit_task(id):
         task.date = form.date.data
         task.rate = form.rate.data
         task.comment = form.comment.data
+        task.currency_id = form.currency_id.data.id
         db.session.add(task)
         db.session.commit()
         flash('Your changes have been saved.', 'success')
-        return redirect(url_for('tasks.add_task'))
+        return redirect(url_for('tasks.edit_task', id=id))
     elif request.method == 'GET':
         form.name.data = task.name
         form.client_id.data = task.client_task
@@ -77,10 +79,12 @@ def edit_task(id):
         form.date.data = task.date
         form.rate.data = task.rate
         form.comment.data = task.comment
+        form.currency_id.data = task.currency_task
     page = request.args.get('page', 1, type=int)
     pagination = current_user.my_tasks().paginate(page, 4, False)
     tasks = pagination.items
-    return render_template('tasks/edit_task.html', title='Edit Task', form=form, tasks=tasks, pagination=pagination)
+    return render_template('tasks/edit_task.html', title='Edit Task', form=form, tasks=tasks, pagination=pagination,
+                           id=id)
 
 
 @bp.route('/delete_task/<id>', methods=['POST'])

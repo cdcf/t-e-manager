@@ -15,7 +15,7 @@
                 {% for client in clients %}
                     {% include 'clients/_client.html' %}
                 {% endfor %}
-            {{ macros.pagination_widget(pagination, 'clients.add_client') }}
+            {{ macros.pagination_widget(pagination, 'clients.edit_client', id=id) }}
             </div>
         </div>
     </div>

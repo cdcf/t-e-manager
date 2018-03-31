@@ -1,0 +1,21 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-9">
+                    <u>Category:</u> {{ category_type.category_category_type.name }}<br>
+                    <u>Category type:</u> {{ category_type.name }}<br>
+                    <u>Icon:</u> {{ category_type.icon }}
+                </div>
+                <div class="col-md-3">
+                    <div class="btn pull-right">
+                        <a class="btn btn-primary" href="{{ url_for('category_types.edit_category_type', id=category_type.id) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        {% if current_user.is_administrator %}
+                            <form method="post" action="{{ url_for('category_types.delete_category_type', id=category_type.id) }}"><button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span></button></form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

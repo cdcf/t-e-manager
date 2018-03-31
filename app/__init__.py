@@ -54,6 +54,12 @@ def create_app(config_class=Config):
     from app.currencies import bp as currencies_bp
     app.register_blueprint(currencies_bp)
 
+    from app.categories import bp as categories_bp
+    app.register_blueprint(categories_bp)
+
+    from app.category_types import bp as category_types_bp
+    app.register_blueprint(category_types_bp)
+
     if not app.debug:
         if app.config['MAIL_SERVER']:
             auth = None

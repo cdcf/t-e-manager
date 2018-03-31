@@ -47,7 +47,7 @@ def edit_client(id):
     pagination = Client.query.order_by(Client.name.desc()).paginate(page, 5, False)
     clients = pagination.items
     return render_template('clients/edit_client.html', title='Edit a Client', form=form, clients=clients,
-                           pagination=pagination)
+                           pagination=pagination, id=id)
 
 
 @bp.route('/delete_client/<id>', methods=['POST'])

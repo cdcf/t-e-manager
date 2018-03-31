@@ -86,7 +86,6 @@ class User(UserMixin, db.Model):
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
     clients = db.relationship('Client', backref='user_client', lazy='dynamic')
     projects = db.relationship('Project', backref='user_project', lazy='dynamic')
-    currencies = db.relationship('Currency', backref='user_currency', lazy='dynamic')
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     def __init__(self, **kwargs):
@@ -172,12 +171,13 @@ class Task(db.Model):
     name = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     task_ref = db.Column(db.String(16))
-    duration = db.Column(db.Float(4, 2))
+    duration = db.Column(db.DECIMAL(4, 2))
     date = db.Column(db.Date, index=True)
     comment = db.Column(db.Text())
-    rate = db.Column(db.Float(6, 2))
+    rate = db.Column(db.DECIMAL(6, 2))
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+    currency_id = db.Column(db.Integer, db.ForeignKey('currency.id'))
 
     def __repr__(self):
         return '<Task {}>'.format(self.name)
@@ -213,8 +213,26 @@ class Currency(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(4), index=True, unique=True)
     description = db.Column(db.String(64))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     default_curr = db.Column(db.Boolean())
+    tasks = db.relationship('Task', backref='currency_task', lazy='dynamic')
 
     def __repr__(self):
         return '<Currency>'.format(self.name)
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(4), index=True, unique=True)
+    colour = db.Column(db.String(16))
+    category_type = db.relationship('CategoryType', backref='category_category_type', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Category>'.format(self.name)
+
+
+class CategoryType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True, unique=True)
+    icon = db.Column(db.String(32))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+

@@ -41,7 +41,7 @@ def edit_project(id):
         db.session.add(project)
         db.session.commit()
         flash('Your changes have been saved.', 'success')
-        return redirect(url_for('projects.add_project'))
+        return redirect(url_for('projects.edit_project', id=id))
     elif request.method == 'GET':
         form.name.data = project.name
         form.description.data = project.description
@@ -50,7 +50,7 @@ def edit_project(id):
     pagination = Project.query.order_by(Project.name.desc()).paginate(page, 5, False)
     projects = pagination.items
     return render_template('projects/edit_project.html', title='Edit Project', form=form, projects=projects,
-                           pagination=pagination)
+                           pagination=pagination, id=id)
 
 
 @bp.route('/delete_project/<id>', methods=['POST'])

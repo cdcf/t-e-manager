@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block app_content %}
+    <h1>Edit a Category Type</h1>
+    <div class="row">
+        <div class="col-md-6">
+            {% if current_user.can(Permission.WRITE) %}
+                {{ wtf.quick_form(form) }}
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <div class="pagination">
+                {% for category_type in category_types %}
+                    {% include 'settings/_category_type.html' %}
+                {% endfor %}
+            {{ macros.pagination_widget(pagination, 'category_types.edit_category_type', id=id) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

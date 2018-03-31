@@ -1,0 +1,21 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-9">
+                    <br>
+                    <u>Category name:</u> {{ category.name }}<br>
+                    <u>Colour:</u> <span style="background-color: {{ category.colour }};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+                <div class="col-md-3">
+                    <div class="btn pull-right">
+                        <a class="btn btn-primary" href="{{ url_for('categories.edit_category', id=category.id) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        {% if current_user.is_administrator %}
+                            <form method="post" action="{{ url_for('categories.delete_category', id=category.id) }}"><button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span></button></form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
