@@ -24,6 +24,12 @@ def index():
     return render_template('index.html', title='Home')
 
 
+@bp.route('/apple-app-site-association')
+@bp.route('/.well-known/apple-app-site-association')
+def apple_app_site_association():
+    return jsonify({"webcredentials": {"apps": ["767R4Y4A3U.com.dacostafaro.TEi"]}})
+
+
 @bp.route('/user/<username>')
 @login_required
 def user(username):
